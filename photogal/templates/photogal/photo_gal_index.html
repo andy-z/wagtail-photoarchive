@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-blogindexpage{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <h1>{{ page.title }}</h1>
+
+    <div class="intro">{{ page.intro|richtext }}</div>
+
+    <table class="galery-table">
+        <colgroup>
+            <col width="0*"/>
+            <col/>
+        </colgroup>
+        {% for gallery in page.get_children %}
+        <tr class="galery-table-title-row">
+            <td colspan="2" class="table-cell-caption">
+                <a href="{% pageurl gallery %}">{{ gallery.title }}</a>
+            </td>
+        </tr>
+        <tr class="galery-table-gallery-row">
+            <td class="galery-table-cell-img">
+                {% if gallery.specific.gallery_image %}
+                    <a href="{% pageurl gallery %}">
+                    {% image gallery.specific.gallery_image max-160x160 %}
+                    </a>
+                {% endif %}
+            </td>
+            <td class="galery-table-cell-caption">
+                {{ gallery.specific.intro|richtext }}
+            </td>
+        </tr>
+        <tr style="height: 1em"></tr>
+    {% endfor %}
+    </table>
+
+</div>
+{% endblock %}
