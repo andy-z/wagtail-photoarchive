@@ -2,7 +2,9 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = [
+    "127.0.0.1", "minion", "minion.salnikov.us", "photo-archive.net", "www.photo-archive.net"
+]
 
 LOGGING = {
     'version': 1,
