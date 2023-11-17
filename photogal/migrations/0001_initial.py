@@ -9,10 +9,6 @@ import wagtail.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [('photogal', '0001_initial'), ('photogal', '0002_remove_photogalimage_image_photogalimage_date'), ('photogal', '0003_photogalrow_remove_photogal_group_re_and_more'), ('photogal', '0004_alter_photogalrow_caption'), ('photogal', '0005_photogal_gallery_image')]
-
-    initial = True
-
     dependencies = [
         ('taggit', '0005_auto_20220424_2025'),
         ('wagtailcore', '0089_log_entry_data_json_null_to_object'),
