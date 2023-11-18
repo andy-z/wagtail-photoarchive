@@ -6,6 +6,8 @@ ALLOWED_HOSTS = [
     "127.0.0.1", "minion", "minion.salnikov.us", "photo-archive.net", "www.photo-archive.net"
 ]
 
+CSRF_TRUSTED_ORIGINS = ["htps://photo-archive.net"]
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
