@@ -12,7 +12,7 @@
     <div class="details">{{ page.detail|richtext }}</div>
 
     <table class="galery-photo-table">
-        {% for images, caption, date in photo_rows %}
+        {% for images, caption, date, photo_size in photo_rows %}
         <tr class="galery-photo-row">
             {% for img in images %}
             <td class="table-cell-img" style="vertical-align: middle; text-align: center">
@@ -26,7 +26,7 @@
             <td class="table-cell-caption" style="vertical-align: middle">
             {{ caption|richtext }}
             <p>
-            {% if date %}Дата: {{ date }} {% endif %}
+            {% if date %}Дата: {{ date }} {% endif %}{% if photo_size %} Размер оригинала: {{ photo_size }} {% endif %}
             </td>
         </tr>
         <tr style="height: 1em"></tr>

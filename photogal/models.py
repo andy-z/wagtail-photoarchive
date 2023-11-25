@@ -1,5 +1,4 @@
 import re
-from collections import defaultdict
 
 from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -8,7 +7,7 @@ from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.images import get_image_model
 from wagtail.fields import RichTextField
-from wagtail.models import Orderable, Page, ClusterableModel
+from wagtail.models import Orderable, Page
 
 ImageModel = get_image_model()
 
@@ -53,6 +52,7 @@ class PhotoGal(Page):
     def _group(self, images: list) -> list[tuple, str, str]:
         groupped_images = []
         dates = []
+        photo_sizes = []
         captions = []
         img_count = 0
         for row in self.gallery_row.all():
@@ -62,10 +62,11 @@ class PhotoGal(Page):
             groupped_images.append(row_images)
             img_count = max(img_count, len(row_images))
             dates.append(row.date)
+            photo_sizes.append(row.photo_size)
             captions.append(row.caption)
         fill = [None] * img_count
         groupped_images = [tuple((row_images + fill)[:img_count]) for row_images in groupped_images]
-        return list(zip(groupped_images, captions, dates))
+        return list(zip(groupped_images, captions, dates, photo_sizes))
 
 
     content_panels = Page.content_panels + [
@@ -85,11 +86,13 @@ class PhotoGalRow(Orderable):
     title_re = models.CharField(blank=True, max_length=127)
     caption = RichTextField(blank=True)
     date = models.CharField(blank=True, max_length=127)
+    photo_size = models.CharField(blank=True, max_length=127, null=True)
 
     panels = [
         FieldPanel('title_re'),
         FieldPanel('caption'),
         FieldPanel('date'),
+        FieldPanel('photo_size'),
     ]
 
 class PhotoGalIndex(Page):
