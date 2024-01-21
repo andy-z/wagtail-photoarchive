@@ -45,11 +45,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'wagtail.contrib.sitemaps',
-    'wagtail.contrib.routable_page',
-    'django_social_share',
-    'puput',
-    'colorful',
+    "wagtail.contrib.sitemaps",
+    "wagtail.contrib.routable_page",
+    "wagtailmarkdown",
+    "django_social_share",
+    "puput",
+    "colorful",
 ]
 
 MIDDLEWARE = [
