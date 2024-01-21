@@ -16,7 +16,7 @@
             <col width="0*"/>
             <col/>
         </colgroup>
-        {% for gallery in page.get_children %}
+        {% for gallery in page.specific.galleries %}
         <tr class="galery-table-title-row">
             <td colspan="2" class="table-cell-caption">
                 <a href="{% pageurl gallery %}">{{ gallery.title }}</a>
@@ -37,6 +37,11 @@
         <tr style="height: 1em"></tr>
     {% endfor %}
     </table>
+
+    <hr>
+    <div class="navigation-bottom">
+        <a href="news">Photo Archive News</a>
+    </div>
 
 </div>
 {% endblock %}

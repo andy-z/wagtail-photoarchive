@@ -68,7 +68,6 @@ class PhotoGal(Page):
         groupped_images = [tuple((row_images + fill)[:img_count]) for row_images in groupped_images]
         return list(zip(groupped_images, captions, dates, photo_sizes))
 
-
     content_panels = Page.content_panels + [
         FieldPanel('gallery_image'),
         FieldPanel('intro'),
@@ -101,3 +100,8 @@ class PhotoGalIndex(Page):
     content_panels = Page.content_panels + [
         FieldPanel('intro')
     ]
+
+    def galleries(self) -> list[Page]:
+        for page in super().get_children():
+            print(page.specific_class)
+        return [page for page in super().get_children() if isinstance(page.specific, PhotoGal)]

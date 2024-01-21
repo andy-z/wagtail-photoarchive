@@ -1,2 +1,4 @@
 Django>=4.2,<4.3
 wagtail>=5.2,<5.3
+# puput, need a patch supporting wagtail 5.2
+git+https://github.com/leewesleyv/puput.git@feature/wagtail-52-support
