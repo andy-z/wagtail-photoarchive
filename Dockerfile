@@ -1,5 +1,5 @@
 # Use an official Python runtime based on Debian 10 "buster" as a parent image.
-FROM python:3.10-slim-buster
+FROM python:3.12-slim
 
 # Add user that will be used in the container.
 RUN useradd wagtail
@@ -17,19 +17,18 @@ ENV PYTHONUNBUFFERED=1 \
 # Install system packages required by Wagtail and Django.
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
     build-essential \
-    libpq-dev \
-    libmariadbclient-dev \
     libjpeg62-turbo-dev \
     zlib1g-dev \
     libwebp-dev \
+    git \
  && rm -rf /var/lib/apt/lists/*
 
 # Install the application server.
-RUN pip install "gunicorn==20.0.4"
+RUN pip install uv; uv pip install --system "gunicorn"
 
 # Install the project requirements.
 COPY requirements.txt /
-RUN pip install -r /requirements.txt
+RUN uv pip install --system -r /requirements.txt
 
 # Use /app folder as a directory where the source code is stored.
 WORKDIR /app

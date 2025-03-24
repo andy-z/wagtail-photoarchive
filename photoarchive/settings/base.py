@@ -47,10 +47,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "wagtail.contrib.sitemaps",
     "wagtail.contrib.routable_page",
+    "wagtail.contrib.search_promotions",
     "wagtailmarkdown",
     "django_social_share",
     "puput",
-    "colorful",
 ]
 
 MIDDLEWARE = [
