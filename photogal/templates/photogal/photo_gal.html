@@ -5,26 +5,145 @@
 {% block body_class %}template-blogindexpage{% endblock %}
 
 {% block content %}
+
+
+<script type="module">
+    import PhotoSwipeLightbox from '/static/photoswipe/dist/photoswipe-lightbox.esm.js';
+    import PhotoSwipe from '/static/photoswipe/dist/photoswipe.esm.js';
+
+    const lightbox = new PhotoSwipeLightbox({
+        gallery: '#photoswipe-gallery',
+        children: '.photoswipe-gallery-item',
+        pswpModule: PhotoSwipe,
+        paddingFn: (viewportSize) => {
+            return {
+                top: 30, bottom: 70, left: 70, right: 70
+            }
+        },
+    });
+
+    // add download button.
+    lightbox.on('uiRegister', function() {
+        lightbox.pswp.ui.registerElement({
+            name: 'download-button',
+            order: 8,
+            isButton: true,
+            tagName: 'a',
+
+            // SVG with outline
+            html: {
+                isCustomSVG: true,
+                inner: '<path d="M20.5 14.3 17.1 18V10h-2.2v7.9l-3.4-3.6L10 16l6 6.1 6-6.1ZM23 23H9v2h14Z" id="pswp__icn-download"/>',
+                outlineID: 'pswp__icn-download'
+            },
+
+            // Or provide full svg:
+            // html: '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" class="pswp__icn"><path d="M20.5 14.3 17.1 18V10h-2.2v7.9l-3.4-3.6L10 16l6 6.1 6-6.1ZM23 23H9v2h14Z" /></svg>',
+
+            // Or provide any other markup:
+            // html: '<i class="fa-solid fa-download"></i>'
+
+            onInit: (el, pswp) => {
+            el.setAttribute('download', '');
+            el.setAttribute('target', '_blank');
+            el.setAttribute('rel', 'noopener');
+
+            pswp.on('change', () => {
+                console.log('change');
+                el.href = pswp.currSlide.data.src;
+            });
+            }
+        });
+    });
+
+    lightbox.on('uiRegister', function() {
+    lightbox.pswp.ui.registerElement({
+        name: 'custom-caption',
+        order: 9,
+        isButton: false,
+        appendTo: 'root',
+        html: 'Caption text',
+        onInit: (el, pswp) => {
+            lightbox.pswp.on('change', () => {
+            const currSlideElement = lightbox.pswp.currSlide.data.element;
+            let captionHTML = '';
+            if (currSlideElement) {
+                const hiddenCaption = currSlideElement.querySelector('.hidden-caption-content');
+                if (hiddenCaption) {
+                    // get caption from element with class hidden-caption-content
+                    captionHTML = hiddenCaption.innerHTML;
+                } else {
+                    // get caption from alt attribute
+                    captionHTML = currSlideElement.querySelector('img').getAttribute('alt');
+                }
+            }
+            el.innerHTML = captionHTML || '';
+            });
+        }
+        });
+    });
+
+
+    lightbox.init();
+</script>
+<link rel="stylesheet" href="/static/photoswipe/dist/photoswipe.css">
+
+<style>
+.pswp__custom-caption {
+    background: rgba(75, 75, 75, 0.75);
+    font-size: 16px;
+    color: #fff;
+    width: calc(100% - 32px);
+    max-width: 400px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+}
+.pswp__custom-caption a {
+    color: #fff;
+    text-decoration: underline;
+}
+.hidden-caption-content {
+    display: none;
+}
+</style>
+
+
 <div class="container">
     <h1>{{ page.title }}</h1>
 
     <div class="intro">{{ page.intro|richtext }}</div>
     <div class="details">{{ page.detail|richtext }}</div>
 
-    <table class="galery-photo-table">
+    <table class="galery-photo-table" id="photoswipe-gallery">
         {% for images, caption, date, photo_size in photo_rows %}
         <tr class="galery-photo-row">
             {% for img in images %}
             <td class="table-cell-img" style="vertical-align: middle; text-align: center">
-                {% image img original as original %}
-                <a href="{{ original.url }}" target="_blank">{% image img max-160x160 %}<br/>
-                    {{img.title}}
-                </a>
-
+                {% if img %}
+                    {% image img original as original %}
+                    <div class="photoswipe-gallery-item">
+                        <a href="{{ original.url }}" data-pswp-width="{{ original.width }}" data-pswp-height="{{ original.height }}" target="_blank">
+                            {% image img max-160x160 alt=img.title %}
+                        </a>
+                        <!-- caption for photoswipe -->
+                        {% if caption %}
+                            <div class="hidden-caption-content">{{ caption | richtext }}</div>
+                        {% endif %}
+                    </div>
+                    <br/>
+                    <!-- this link opens original image, no photoswipe -->
+                    <a href="{{ original.url }}" target="_blank">
+                        {{ img.title }} ⭳
+                    </a>
+                {% endif %}
             </td>
             {% endfor %}
             <td class="table-cell-caption" style="vertical-align: middle">
-            {{ caption|richtext }}
+            {{ caption | richtext }}
             <p>
             {% if date %}Дата: {{ date }} {% endif %}{% if photo_size %} Размер оригинала: {{ photo_size }} {% endif %}
             </td>
