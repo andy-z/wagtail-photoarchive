@@ -9,6 +9,16 @@
 {% block content %}
 
 
+{% pageurl page as page_url %}
+<meta property="og:url" content="{{ page_url }}" />
+<meta property="og:title" content="{{ page.title }}" />
+<meta property="og:type" content="gallery" />
+{% if gallery_image %}
+{% image gallery_image max-800x800 as meta_image %}
+<meta property="og:image" content="{{ meta_image.url }}" />
+{% endif %}
+
+
 <script type="module">
     import PhotoSwipeLightbox from '/static/photoswipe/dist/photoswipe-lightbox.esm.js';
     import PhotoSwipe from '/static/photoswipe/dist/photoswipe.esm.js';
@@ -117,7 +127,6 @@
 
 <div class="container">
 
-    {% pageurl page as page_url %}
     <div class="navigation-top">
         <a href="{% pageurl page.get_parent %}">Up</a>
         |

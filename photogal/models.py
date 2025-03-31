@@ -42,6 +42,7 @@ class PhotoGal(Page):
         photo_rows = self._group(images)
         # print(photo_rows)
         context["photo_rows"] = photo_rows
+        context["gallery_image"] = self.gallery_image
 
         return context
 
