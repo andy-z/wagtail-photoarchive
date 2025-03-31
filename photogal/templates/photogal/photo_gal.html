@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags social_share %}
+
+
 
 {% block body_class %}template-blogindexpage{% endblock %}
 
@@ -112,7 +114,16 @@
 </style>
 
 
+
 <div class="container">
+
+    {% pageurl page as page_url %}
+    <div class="navigation-top">
+        <a href="{% pageurl page.get_parent %}">Up</a>
+        |
+        Share: {% post_to_facebook page_url "FB" %} {% post_to_whatsapp page_url "WhatsApp" %}
+    </div>
+
     <h1>{{ page.title }}</h1>
 
     <div class="intro">{{ page.intro|richtext }}</div>

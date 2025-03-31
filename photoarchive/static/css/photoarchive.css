@@ -92,6 +92,18 @@ a {
     /* font-family: monospace; */
 }
 
+.navigation-top {
+    width: 100%;
+    background-color: #777777;
+    color: white;
+    font-weight: bold;
+    padding: 10px 10px;
+}
+
+.navigation-top a {
+    color: white;
+}
+
 .navigation-bottom {
     text-align: center;
 }
