@@ -29,6 +29,10 @@
         {% block extra_css %}
         {# Override this in templates to add extra stylesheets #}
         {% endblock %}
+
+        {% block extra_meta %}
+        {# Override this in templates to add extra meta tags #}
+        {% endblock %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">

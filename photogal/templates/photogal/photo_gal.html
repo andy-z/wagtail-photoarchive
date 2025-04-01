@@ -6,17 +6,21 @@
 
 {% block body_class %}template-blogindexpage{% endblock %}
 
-{% block content %}
 
+{% block extra_meta %}
 
 {% pageurl page as page_url %}
 <meta property="og:url" content="{{ page_url }}" />
 <meta property="og:title" content="{{ page.title }}" />
-<meta property="og:type" content="gallery" />
+<meta property="og:type" content="website" />
 {% if gallery_image %}
 {% image gallery_image max-800x800 as meta_image %}
 <meta property="og:image" content="{{ meta_image.url }}" />
 {% endif %}
+
+{% endblock %}
+
+{% block content %}
 
 
 <script type="module">
